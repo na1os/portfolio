@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NANOS · Portfolio</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
+
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<svg style="position:fixed;width:0;height:0;pointer-events:none">
+  <defs>
+    <filter id="goo">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur"/>
+      <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -10" result="goo"/>
+      <feBlend in="SourceGraphic" in2="goo"/>
+    </filter>
+  </defs>
+</svg>
+
+<div class="preloader" id="preloader">
+  <div class="preloader-logo"><span>N</span><span>A</span><span>N</span><span>O</span><span>S</span></div>
+  <div class="preloader-bar"></div>
+  <div class="preloader-counter" id="preloader-counter">000</div>
+</div>
+
+<div class="liquid-cursor" id="liquid-cursor">
+  <div class="lc-blob" id="lc1"></div>
+  <div class="lc-blob" id="lc2"></div>
+  <div class="lc-blob" id="lc3"></div>
+</div>
+<div class="cursor-dot" id="cursor-dot"></div>
+<div class="cursor-ring" id="cursor-ring"><span class="cursor-text" id="cursor-text"></span></div>
+<div class="scroll-progress" id="scroll-progress"></div>
+
+<canvas id="bg-canvas"></canvas>
+<div class="light-rays"></div>
+<div class="noise"></div>
+
+<div class="easter-egg" id="easter-egg">
+  <div class="font-display text-5xl gradient-text">404</div>
+  <div class="font-mono text-sm text-muted">Nothing to see here. Or is it?</div>
+  <button class="btn btn-primary magnetic" onclick="document.getElementById('easter-egg').classList.remove('show')">Close</button>
+</div>
+
+<nav class="nav" id="nav">
+  <a href="#hero" class="nav-logo magnetic">NANOS</a>
+  <div class="nav-links">
+    <a href="#about" class="nav-link magnetic-ui">About</a>
+    <a href="#services" class="nav-link magnetic-ui">Services</a>
+    <a href="#work" class="nav-link magnetic-ui hide-mobile">Work</a>
+    <a href="#journey" class="nav-link magnetic-ui hide-mobile">Journey</a>
+    <a href="#contact" class="nav-link magnetic-ui">Contact</a>
+  </div>
+</nav>
+
+<section class="hero" id="hero">
+  <div class="hero-eyebrow">DEVELOPER · 2025</div>
+  <h1 class="hero-title glitch" id="hero-title" data-text="NANOS">NANOS</h1>
+  <div class="hero-subtitle"><span id="typewriter"></span><span class="cursor-blink"></span></div>
+  <div class="hero-cta">
+    <a href="#work" class="btn btn-primary magnetic" data-cursor="hover">View Work</a>
+    <a href="#contact" class="btn magnetic" data-cursor="hover">Get in Touch</a>
+  </div>
+  <div class="scroll-indicator"><div>SCROLL</div><div class="line"></div></div>
+</section>
+
+<section class="section" id="about">
+  <div class="section-label">About</div>
+  <h2 class="section-title">
+    <span class="mask-reveal"><span>Building the</span></span>
+    <span class="mask-reveal delay-1"><span class="gradient-text">web, my way.</span></span>
+  </h2>
+  <div class="about-grid mt-12">
+    <div class="depth-layer" data-speed="0.1">
+      <p class="text-muted leading-relaxed text-lg mb-6">I build things for the web. Mostly infrastructure, sometimes interfaces. I care about performance and details most people don't notice.</p>
+      <p class="text-muted leading-relaxed mb-6">Started with a simple HTML page, ended up running my own servers. I write TypeScript, Rust, and bash scripts that save me 5 minutes a week.</p>
+      <div class="stat-grid stagger-grid">
+        <div class="glass-card stat-card tilt-card"><div class="stat-number" data-target="19">0</div><div class="stat-label">Projects Shipped</div></div>
+        <div class="glass-card stat-card tilt-card"><div class="stat-number" data-target="5">0</div><div class="stat-label">Years Coding</div></div>
+        <div class="glass-card stat-card tilt-card"><div class="stat-number" data-target="99" data-suffix=".9">0</div><div class="stat-label">Uptime Percent</div></div>
+        <div class="glass-card stat-card tilt-card"><div class="stat-number" data-target="4">0</div><div class="stat-label">Servers Managed</div></div>
+      </div>
+    </div>
+    <div class="glass-card depth-layer" style="padding:2.5rem" data-speed="0.2">
+      <h3 class="font-display text-xl mb-6 flex items-center gap-2"><span class="inline-block w-2 h-2 rounded-full bg-[var(--accent)]" style="box-shadow:0 0 10px var(--accent)"></span>Stack</h3>
+      <div class="skill-row"><div class="skill-header"><span>TypeScript / React</span><span>96%</span></div><div class="skill-bar"><div class="skill-fill" data-width="96"></div></div></div>
+      <div class="skill-row"><div class="skill-header"><span>Node / Bun / APIs</span><span>92%</span></div><div class="skill-bar"><div class="skill-fill" data-width="92"></div></div></div>
+      <div class="skill-row"><div class="skill-header"><span>Docker / Linux / Infra</span><span>90%</span></div><div class="skill-bar"><div class="skill-fill" data-width="90"></div></div></div>
+      <div class="skill-row"><div class="skill-header"><span>Python / ML Scripts</span><span>94%</span></div><div class="skill-bar"><div class="skill-fill" data-width="94"></div></div></div>
+      <div class="skill-row"><div class="skill-header"><span>WebGL / Three.js</span><span>80%</span></div><div class="skill-bar"><div class="skill-fill" data-width="80"></div></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="services" style="padding:0">
+  <div class="cube-container" id="cube-container">
+    <div class="text-center mb-12 absolute top-24 w-full">
+      <div class="section-label">Services</div>
+      <h2 class="section-title"><span class="mask-reveal"><span>What I do</span></span></h2>
+    </div>
+    <div class="cube-wrap" id="cube-wrap">
+      <div class="cube-face"><div class="card-num">01</div><h3>Frontend<br>Development</h3><p>React, Next.js, and a lot of CSS. Building interfaces that don't lag.</p></div>
+      <div class="cube-face"><div class="card-num">02</div><h3>Backend<br>Engineering</h3><p>Node, Bun, Rust. APIs that scale and databases that don't lock up.</p></div>
+      <div class="cube-face"><div class="card-num">03</div><h3>DevOps<br>& Hosting</h3><p>Docker, Kubernetes, bare metal. I host my own stuff. 99.9% uptime.</p></div>
+      <div class="cube-face"><div class="card-num">04</div><h3>WebGL<br>& 3D</h3><p>Three.js, shaders, and physics. Making the web a bit more interesting.</p></div>
+      <div class="cube-face"><div class="card-num">05</div><h3>Automation<br>Scripts</h3><p>Python and Bash. If I have to do it twice, I'll script it.</p></div>
+      <div class="cube-face"><div class="card-num">06</div><h3>Consulting<br>& Audit</h3><p>Code reviews, architecture audits, and fixing what others broke.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="model-viewer-section" id="model-viewer">
+  <canvas id="model-canvas"></canvas>
+  <div class="model-info">
+    <div class="section-label" style="text-align:center">3D View</div>
+    <h2 class="section-title"><span class="gradient-text">Drag to rotate</span></h2>
+    <p class="text-muted mt-4 max-w-md mx-auto">Just a 3D knot rendered in real-time. No external models loaded.</p>
+  </div>
+</section>
+
+<section class="projects-horizontal" id="work">
+  <div class="projects-header">
+    <div class="section-label">Projects</div>
+    <h2 class="section-title"><span class="mask-reveal"><span>Featured</span></span><br><span class="mask-reveal delay-1"><span class="gradient-text">Work</span></span></h2>
+  </div>
+  <div class="projects-track" id="projects-track" data-cursor="hover"></div>
+</section>
+
+<section class="section curtain-section" id="journey">
+  <div class="text-center mb-16">
+    <div class="section-label">Journey</div>
+    <h2 class="section-title"><span class="mask-reveal"><span>What I've</span></span><span class="mask-reveal delay-1"><span class="gradient-text">done</span></span></h2>
+  </div>
+  <div class="timeline" id="timeline">
+    <div class="timeline-line"></div>
+    <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-empty"></div><div class="timeline-content glass-card tilt-card"><div class="timeline-year">2024 · NOW</div><h3 class="timeline-title">Freelance / Indie</h3><p class="timeline-desc">Doing my own thing. Building tools, shipping projects, and working with select clients.</p></div></div>
+    <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-content glass-card tilt-card"><div class="timeline-year">2022 · 2024</div><h3 class="timeline-title">Lead Dev at Startup</h3><p class="timeline-desc">Built the platform from scratch. Handled everything from React frontend to Kubernetes cluster.</p></div><div class="timeline-empty"></div></div>
+    <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-empty"></div><div class="timeline-content glass-card tilt-card"><div class="timeline-year">2020 · 2022</div><h3 class="timeline-title">Full-Stack Agency</h3><p class="timeline-desc">Shipped 20+ websites. Learned a lot about scope creep and bad clients.</p></div></div>
+    <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-content glass-card tilt-card"><div class="timeline-year">2018 · 2020</div><h3 class="timeline-title">Started Coding</h3><p class="timeline-desc">First HTML page, first server, first "hello world". The beginning of the rabbit hole.</p></div><div class="timeline-empty"></div></div>
+  </div>
+</section>
+
+<section class="section" id="contact">
+  <div class="contact-grid">
+    <div>
+      <div class="section-label">Contact</div>
+      <h2 class="section-title"><span class="mask-reveal"><span>Got a project?</span></span><span class="mask-reveal delay-1"><span class="gradient-text">Let's talk.</span></span></h2>
+      <p class="text-muted leading-relaxed mb-2 mt-4">I'm open to freelance work, collaborations, or just chatting about tech.</p>
+      <p class="font-mono text-sm text-muted mb-2">mihai@nanos.ro</p>
+      <p class="font-mono text-sm text-muted mb-6">Remote · GMT+1</p>
+      <div class="social-links">
+        <a href="#" class="social-link magnetic-ui tilt-card" data-cursor="hover" aria-label="GitHub"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.9 1.2 1.9 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.7 1.6.2 2.8.1 3.2.8.8 1.3 1.9 1.3 3.2 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.2.9 2.3v3.3c0 .3.1.7.8.6A12 12 0 0 0 12 .3"/></svg></a>
+        <a href="#" class="social-link magnetic-ui tilt-card" data-cursor="hover" aria-label="Twitter"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 1.2h3.7l-8 9.1 9.4 12.5h-7.4l-5.8-7.5-6.6 7.5H.4l8.5-9.7L0 1.2h7.6l5.2 6.9 6.1-6.9Zm-1.3 19.6h2L7.5 3.2H5.4l12.2 17.6Z"/></svg></a>
+        <a href="#" class="social-link magnetic-ui tilt-card" data-cursor="hover" aria-label="LinkedIn"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3v9zM6.5 8.3a1.8 1.8 0 110-3.5 1.8 1.8 0 010 3.5zM19 19h-3v-4.7c0-1.1 0-2.5-1.5-2.5s-1.8 1.2-1.8 2.4V19h-3v-9h2.9v1.2h.04c.4-.75 1.4-1.5 2.8-1.5 3 0 3.6 2 3.6 4.5V19z"/></svg></a>
+      </div>
+<a href="https://discord.gg/YbMquNne" class="discord-btn magnetic" data-cursor="hover">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M19.5 5.3A17 17 0 0 0 15.4 4l-.2.4a13 13 0 0 1 3.6 1.2 12 12 0 0 0-10.6 0 13 13 0 0 1 3.6-1.2L11.6 4a17 17 0 0 0-4.1 1.3C3.5 9.7 2.7 14 3 18.2a17 17 0 0 0 5.2 2.6l.4-.6a11 11 0 0 1-1.8-.9l.4-.3a12 12 0 0 0 10.4 0l.4.3a11 11 0 0 1-1.8-.9l.4.6a17 17 0 0 0 5.2-2.6c.4-5-.9-9.2-3.3-12.9ZM9.5 15.5c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2Zm5 0c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2Z"/>
+  </svg>
+  Add me on Discord
+</a>
+    </div>
+    <form class="contact-form glass-card tilt-card" style="padding:2.5rem;position:relative" id="contact-form">
+      <div class="input-group"><input type="text" id="name" placeholder=" " required><label for="name">Name</label></div>
+      <div class="input-group"><input type="email" id="email" placeholder=" " required><label for="email">Email</label></div>
+      <div class="input-group"><input type="text" id="subject" placeholder=" "><label for="subject">Subject</label></div>
+      <div class="input-group"><textarea id="message" rows="4" placeholder=" " required></textarea><label for="message">Message</label></div>
+      <button type="submit" class="btn btn-primary magnetic self-start" data-cursor="hover">Send →</button>
+      <div class="form-success" id="form-success"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="m8 12 3 3 5-6"/></svg><div class="font-display text-2xl gradient-text">Sent</div><div class="font-mono text-sm text-muted">I'll get back to you.</div></div>
+    </form>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-text">© 2026 NANOS</div>
+  </div>
+</footer>
+
+<button class="audio-toggle" id="audio-toggle" aria-label="Toggle ambient sound" data-cursor="hover"><div class="wave"><span></span><span></span><span></span></div></button>
+
+<script type="module">import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
+import { FXAAShader } from 'three/addons/shaders/FXAAShader.js';
+
+let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
+let pmx = 0, pmy = 0;
+
+document.addEventListener('mousemove', (e) => {
+  mouseX = e.clientX; mouseY = e.clientY;
+  pmx = (e.clientX / window.innerWidth - 0.5) * 2;
+  pmy = (e.clientY / window.innerHeight - 0.5) * 2;
+});
+
+const preloader = document.getElementById('preloader');
+const counter = document.getElementById('preloader-counter');
+let progress = 0;
+const ci = setInterval(() => {
+  progress += Math.random() * 8 + 2;
+  if (progress >= 100) { progress = 100; clearInterval(ci); }
+  counter.textContent = String(Math.floor(progress)).padStart(3, '0');
+}, 80);
+
+window.addEventListener('load', () => {
+  setTimeout(() => { preloader.classList.add('done'); document.body.style.overflow = 'auto'; initHeroAnimations(); }, 2200);
+});
+document.body.style.overflow = 'hidden';
+
+const cursorDot = document.getElementById('cursor-dot');
+const cursorRing = document.getElementById('cursor-ring');
+const liquidCursor = document.getElementById('liquid-cursor');
+const cursorText = document.getElementById('cursor-text');
+let ringX = mouseX, ringY = mouseY;
+
+const lc1 = document.getElementById('lc1');
+const lc2 = document.getElementById('lc2');
+const lc3 = document.getElementById('lc3');
+let lc1x = mouseX, lc1y = mouseY, lc2x = mouseX, lc2y = mouseY, lc3x = mouseX, lc3y = mouseY;
+
+document.addEventListener('mousemove', (e) => {
+  cursorDot.style.transform = `translate(${e.clientX}px, ${e.clientY}px) translate(-50%, -50%)`;
+});
+
+function animateCursor() {
+  ringX += (mouseX - ringX) * 0.18;
+  ringY += (mouseY - ringY) * 0.18;
+  cursorRing.style.transform = `translate(${ringX}px, ${ringY}px) translate(-50%, -50%)`;
+  
+  lc1x += (mouseX - lc1x) * 0.12; lc1y += (mouseY - lc1y) * 0.12;
+  lc1.style.transform = `translate3d(${lc1x}px, ${lc1y}px, 0) translate(-50%, -50%)`;
+  
+  lc2x += (mouseX - lc2x) * 0.06; lc2y += (mouseY - lc2y) * 0.06;
+  lc2.style.transform = `translate3d(${lc2x}px, ${lc2y}px, 0) translate(-50%, -50%)`;
+  
+  lc3x += (mouseX - lc3x) * 0.03; lc3y += (mouseY - lc3y) * 0.03;
+  lc3.style.transform = `translate3d(${lc3x}px, ${lc3y}px, 0) translate(-50%, -50%)`;
+  
+  requestAnimationFrame(animateCursor);
+}
+animateCursor();
+
+document.addEventListener('mouseover', (e) => {
+  if (e.target.matches('a, button, [data-cursor="hover"], input, textarea, .tilt-card')) {
+    cursorRing.classList.add('hover');
+    liquidCursor.classList.add('hover');
+  }
+});
+document.addEventListener('mouseout', (e) => {
+  if (e.target.matches('a, button, [data-cursor="hover"], input, textarea, .tilt-card')) {
+    cursorRing.classList.remove('hover');
+    liquidCursor.classList.remove('hover');
+    cursorText.textContent = '';
+  }
+});
+
+const lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smooth: true, smoothTouch: false });
+function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+requestAnimationFrame(raf);
+
+gsap.registerPlugin(ScrollTrigger);
+lenis.on('scroll', ScrollTrigger.update);
+
+document.querySelectorAll('a[href^="#"]').forEach(a => { 
+  a.addEventListener('click', (e) => { 
+    const h = a.getAttribute('href'); 
+    if (h.length > 1) { 
+      e.preventDefault(); 
+      const t = document.querySelector(h); 
+      if (t) lenis.scrollTo(t, { offset: -40 }); 
+    } 
+  }); 
+});
+
+const scrollProgress = document.getElementById('scroll-progress');
+const nav = document.getElementById('nav');
+lenis.on('scroll', ({ scroll, limit }) => {
+  scrollProgress.style.width = (scroll / limit) * 100 + '%';
+  nav.classList.toggle('scrolled', scroll > 60);
+});
+
+const bgCanvas = document.getElementById('bg-canvas');
+const bgScene = new THREE.Scene();
+bgScene.fog = new THREE.FogExp2(0x02030a, 0.015);
+const bgCamera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 2000);
+bgCamera.position.z = 50;
+
+const bgRenderer = new THREE.WebGLRenderer({ canvas: bgCanvas, antialias: true, alpha: true });
+bgRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+bgRenderer.setSize(window.innerWidth, window.innerHeight);
+bgRenderer.toneMapping = THREE.ACESFilmicToneMapping;
+bgRenderer.toneMappingExposure = 1.1;
+
+const composer = new EffectComposer(bgRenderer);
+composer.addPass(new RenderPass(bgScene, bgCamera));
+
+const bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 0.6, 0.4, 0.85);
+composer.addPass(bloomPass);
+
+const fxaaPass = new ShaderPass(FXAAShader);
+fxaaPass.material.uniforms['resolution'].value.set(1 / window.innerWidth, 1 / window.innerHeight);
+composer.addPass(fxaaPass);
+
+const ambientLight = new THREE.AmbientLight(0x404060, 1.5);
+bgScene.add(ambientLight);
+const dirLight = new THREE.DirectionalLight(0x00f0ff, 1.2);
+dirLight.position.set(5, 10, 7);
+bgScene.add(dirLight);
+const pointLight = new THREE.PointLight(0x6b3aff, 2, 100);
+pointLight.position.set(-10, -10, 10);
+bgScene.add(pointLight);
+
+const physicsObjects = [];
+const geometries = [
+  new THREE.IcosahedronGeometry(1, 0),
+  new THREE.OctahedronGeometry(1, 0),
+  new THREE.TetrahedronGeometry(1, 0),
+  new THREE.DodecahedronGeometry(1, 0),
+  new THREE.TorusGeometry(0.8, 0.25, 8, 16),
+  new THREE.ConeGeometry(1, 1.5, 5),
+  new THREE.BoxGeometry(1.2, 1.2, 1.2)
+];
+
+const colors = [0x00f0ff, 0x0a4dff, 0x6b3aff, 0xffffff, 0x1a2a5e];
+
+for (let i = 0; i < 35; i++) {
+  const geo = geometries[Math.floor(Math.random() * geometries.length)];
+  const color = colors[Math.floor(Math.random() * colors.length)];
+  
+  const mat = new THREE.MeshStandardMaterial({
+    color: color,
+    metalness: 0.8,
+    roughness: 0.2,
+    emissive: color,
+    emissiveIntensity: 0.4,
+    flatShading: true
+  });
+  
+  const mesh = new THREE.Mesh(geo, mat);
+  const scale = 1 + Math.random() * 2.5;
+  mesh.scale.setScalar(scale);
+  
+  const x = (Math.random() - 0.5) * 80;
+  const y = (Math.random() - 0.5) * 50;
+  const z = (Math.random() - 0.5) * 40 - 10;
+  
+  mesh.position.set(x, y, z);
+  mesh.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI);
+  
+  mesh.userData = {
+    homePos: mesh.position.clone(),
+    velocity: new THREE.Vector3(0, 0, 0),
+    angularVel: new THREE.Vector3(0, 0, 0),
+    mass: scale,
+    radius: scale,
+    baseEmissive: 0.4
+  };
+  
+  bgScene.add(mesh);
+  physicsObjects.push(mesh);
+}
+
+const raycaster = new THREE.Raycaster();
+const mouseNDC = new THREE.Vector2(0, 0);
+const mousePlane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
+const mouse3D = new THREE.Vector3(0, 0, 0);
+
+function updateMouse3D() {
+  mouseNDC.x = (mouseX / window.innerWidth) * 2 - 1;
+  mouseNDC.y = -(mouseY / window.innerHeight) * 2 + 1;
+  raycaster.setFromCamera(mouseNDC, bgCamera);
+  raycaster.ray.intersectPlane(mousePlane, mouse3D);
+}
+
+function animatePhysics() {
+  updateMouse3D();
+  
+  physicsObjects.forEach(obj => {
+    const data = obj.userData;
+    const distToMouse = obj.position.distanceTo(mouse3D);
+    const repelRadius = 12;
+    
+    if (distToMouse < repelRadius && distToMouse > 0.1) {
+      const forceDir = new THREE.Vector3().subVectors(obj.position, mouse3D).normalize();
+      const force = (1 - distToMouse / repelRadius) * 1.5;
+      data.velocity.add(forceDir.multiplyScalar(force));
+      
+      data.angularVel.x += (Math.random() - 0.5) * 0.2 * force;
+      data.angularVel.y += (Math.random() - 0.5) * 0.2 * force;
+      data.angularVel.z += (Math.random() - 0.5) * 0.2 * force;
+      
+      obj.material.emissiveIntensity = 0.4 + force * 0.8;
+    } else {
+      obj.material.emissiveIntensity += (0.4 - obj.material.emissiveIntensity) * 0.1;
+    }
+    
+    const springForce = new THREE.Vector3().subVectors(data.homePos, obj.position).multiplyScalar(0.02);
+    data.velocity.add(springForce);
+    
+    physicsObjects.forEach(other => {
+      if (other === obj) return;
+      const diff = new THREE.Vector3().subVectors(obj.position, other.position);
+      const dist = diff.length();
+      const minDist = data.radius + other.userData.radius;
+      
+      if (dist < minDist && dist > 0.1) {
+        const overlap = (minDist - dist) * 0.5;
+        const pushDir = diff.normalize();
+        obj.position.add(pushDir.clone().multiplyScalar(overlap));
+        other.position.sub(pushDir.clone().multiplyScalar(overlap));
+        data.velocity.add(pushDir.clone().multiplyScalar(overlap * 0.1));
+      }
+    });
+    
+    data.velocity.multiplyScalar(0.92);
+    data.angularVel.multiplyScalar(0.95);
+    
+    obj.position.add(data.velocity);
+    obj.rotation.x += data.angularVel.x;
+    obj.rotation.y += data.angularVel.y;
+    obj.rotation.z += data.angularVel.z;
+  });
+  
+  bgCamera.position.x += (pmx * 5 - bgCamera.position.x) * 0.05;
+  bgCamera.position.y += (-pmy * 5 - bgCamera.position.y) * 0.05;
+  bgCamera.lookAt(0, 0, 0);
+  
+  composer.render();
+  requestAnimationFrame(animatePhysics);
+}
+animatePhysics();
+
+window.addEventListener('resize', () => {
+  bgCamera.aspect = window.innerWidth / window.innerHeight;
+  bgCamera.updateProjectionMatrix();
+  bgRenderer.setSize(window.innerWidth, window.innerHeight);
+  composer.setSize(window.innerWidth, window.innerHeight);
+  fxaaPass.material.uniforms['resolution'].value.set(1 / window.innerWidth, 1 / window.innerHeight);
+});
+
+const modelCanvas = document.getElementById('model-canvas');
+const modelScene = new THREE.Scene();
+const modelCamera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
+modelCamera.position.z = 5;
+
+const modelRenderer = new THREE.WebGLRenderer({ canvas: modelCanvas, antialias: true, alpha: true });
+modelRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+modelRenderer.setSize(window.innerWidth, window.innerHeight);
+
+const modelGeo = new THREE.TorusKnotGeometry(1.5, 0.4, 200, 32);
+const modelMat = new THREE.MeshPhysicalMaterial({
+  color: 0x00f0ff,
+  metalness: 0.9,
+  roughness: 0.1,
+  clearcoat: 1.0
+});
+const modelMesh = new THREE.Mesh(modelGeo, modelMat);
+modelScene.add(modelMesh);
+
+const wireMat = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true, transparent: true, opacity: 0.1 });
+const wireMesh = new THREE.Mesh(modelGeo, wireMat);
+modelScene.add(wireMesh);
+
+const modelLight1 = new THREE.PointLight(0x00f0ff, 2, 50);
+modelLight1.position.set(3, 3, 3);
+modelScene.add(modelLight1);
+
+const modelLight2 = new THREE.PointLight(0x6b3aff, 2, 50);
+modelLight2.position.set(-3, -3, 3);
+modelScene.add(modelLight2);
+modelScene.add(new THREE.AmbientLight(0x404040));
+
+const controls = new OrbitControls(modelCamera, modelCanvas);
+controls.enableDamping = true;
+controls.dampingFactor = 0.05;
+controls.enableZoom = false;
+controls.autoRotate = true;
+controls.autoRotateSpeed = 1.5;
+
+let modelVisible = false;
+const modelObserver = new IntersectionObserver((entries) => {
+  modelVisible = entries[0].isIntersecting;
+}, { threshold: 0.1 });
+modelObserver.observe(document.getElementById('model-viewer'));
+
+function animateModel() {
+  if (modelVisible) {
+    controls.update();
+    modelRenderer.render(modelScene, modelCamera);
+  }
+  requestAnimationFrame(animateModel);
+}
+animateModel();
+
+window.addEventListener('resize', () => {
+  modelCamera.aspect = window.innerWidth / window.innerHeight;
+  modelCamera.updateProjectionMatrix();
+  modelRenderer.setSize(window.innerWidth, window.innerHeight);
+});
+
+function initHeroAnimations() {
+  const title = document.getElementById('hero-title');
+  const text = title.textContent;
+  title.innerHTML = '';
+  
+  text.split('').forEach(ch => {
+    const span = document.createElement('span');
+    span.className = 'char';
+    span.textContent = ch;
+    title.appendChild(span);
+  });
+
+  gsap.to('.hero-title .char', {
+    y: 0, opacity: 1, rotate: 0,
+    duration: 1.2, stagger: 0.08, ease: 'expo.out', delay: 0.3
+  });
+
+  const tw = document.getElementById('typewriter');
+  const phrases = ['Developer', 'Infrastructure', 'WebGL', 'AI Scripts'];
+  let pi = 0, ci = 0, del = false;
+  
+  function tick() {
+    const cur = phrases[pi];
+    if (del) {
+      tw.textContent = cur.substring(0, ci--);
+      if (ci < 0) { del = false; pi = (pi + 1) % phrases.length; setTimeout(tick, 400); return; }
+      setTimeout(tick, 40);
+    } else {
+      tw.textContent = cur.substring(0, ci++);
+      if (ci > cur.length) { del = true; setTimeout(tick, 1800); return; }
+      setTimeout(tick, 90);
+    }
+  }
+  tick();
+}
+
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) entry.target.classList.add('in-view');
+  });
+}, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+document.querySelectorAll('.mask-reveal').forEach(el => revealObserver.observe(el));
+
+const journeySection = document.getElementById('journey');
+const journeyObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('in-view');
+      journeyObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -10% 0px' });
+journeyObserver.observe(journeySection);
+
+const skillObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.querySelectorAll('.skill-fill').forEach(f => f.style.width = f.dataset.width + '%');
+      entry.target.querySelectorAll('.stat-number').forEach(stat => {
+        const target = parseInt(stat.dataset.target);
+        const suffix = stat.dataset.suffix || '';
+        let cur = 0; const inc = target / 40;
+        const c = setInterval(() => {
+          cur += inc;
+          if (cur >= target) { cur = target; clearInterval(c); }
+          stat.textContent = Math.floor(cur) + suffix;
+        }, 30);
+      });
+      skillObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.3 });
+document.querySelectorAll('#about').forEach(el => skillObserver.observe(el));
+
+const cubeWrap = document.getElementById('cube-wrap');
+const cubeContainer = document.getElementById('cube-container');
+const cubeFaces = document.querySelectorAll('.cube-face');
+const isMobile = window.innerWidth < 768;
+const tz = isMobile ? 140 : 200;
+
+const faceTransforms = [
+  `rotateY(0deg) translateZ(${tz}px)`,
+  `rotateY(90deg) translateZ(${tz}px)`,
+  `rotateY(180deg) translateZ(${tz}px)`,
+  `rotateY(-90deg) translateZ(${tz}px)`,
+  `rotateX(90deg) translateZ(${tz}px)`,
+  `rotateX(-90deg) translateZ(${tz}px)`
+];
+
+cubeFaces.forEach((face, i) => {
+  if (faceTransforms[i]) face.style.transform = faceTransforms[i];
+});
+
+gsap.to(cubeWrap, {
+  rotationY: 360,
+  rotationX: 360,
+  ease: 'none',
+  scrollTrigger: {
+    trigger: '#services',
+    start: 'top top',
+    end: '+=300%',
+    pin: cubeContainer,
+    scrub: 1
+  }
+});
+
+document.querySelectorAll('.depth-layer').forEach(layer => {
+  const speed = parseFloat(layer.dataset.speed);
+  gsap.to(layer, {
+    y: () => (1 - speed) * -100,
+    ease: 'none',
+    scrollTrigger: {
+      trigger: layer,
+      start: 'top bottom',
+      end: 'bottom top',
+      scrub: true
+    }
+  });
+});
+
+const projects = [
+  { tag: 'Soon', title: 'Soon', desc: 'Soon', img: ' ' },
+  { tag: 'Soon', title: 'Soon', desc: 'Soon', img: ' ' },
+  { tag: 'Soon', title: 'Soon', desc: 'Soon', img: ' ' },
+  { tag: 'Soon', title: 'Soon', desc: 'Soon', img: ' ' },
+  { tag: 'Soon', title: 'Soon', desc: 'Soon', img: ' ' },
+  { tag: 'Soon', title: 'Soon', desc: 'Soon', img: ' ' },
+  { tag: 'Soon', title: 'Soon', desc: 'Soon', img: ' ' },
+  { tag: 'Soon', title: 'Soon', desc: 'Soon', img: ' ' },
+  { tag: 'Soon', title: 'Soon', desc: 'Soon', img: ' ' }
+
+];
+const track = document.getElementById('projects-track');
+
+projects.forEach(p => {
+  const card = document.createElement('div');
+  card.className = 'project-card tilt-card magnetic';
+  card.setAttribute('data-cursor', 'hover');
+  card.innerHTML = `<div class="project-img" style="background-image:url('${p.img}')"></div><div class="project-overlay"></div><div class="project-glow"></div><div class="project-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div><div class="project-info"><div class="project-tag">${p.tag}</div><div class="project-title">${p.title}</div><div class="project-desc">${p.desc}</div></div>`;
+  track.appendChild(card);
+  
+  card.addEventListener('mouseenter', () => { cursorText.textContent = 'VIEW'; });
+  card.addEventListener('mouseleave', () => { cursorText.textContent = ''; });
+});
+
+document.querySelectorAll('a, button').forEach(el => {
+  el.addEventListener('mouseenter', () => { if(!cursorText.textContent) cursorText.textContent = 'GO'; });
+  el.addEventListener('mouseleave', () => { cursorText.textContent = ''; });
+});
+
+if (window.innerWidth > 768) {
+  const trackEl = document.getElementById('projects-track');
+  const totalWidth = trackEl.scrollWidth;
+  gsap.to(trackEl, {
+    x: () => -(totalWidth - window.innerWidth + 100), ease: 'none',
+    scrollTrigger: { 
+      trigger: '#work', 
+      start: 'top top', 
+      end: () => '+=' + (totalWidth - window.innerWidth + 200), 
+      pin: true, 
+      scrub: 1, 
+      anticipatePin: 1, 
+      invalidateOnRefresh: true 
+    }
+  });
+}
+
+document.querySelectorAll('.tilt-card').forEach(card => {
+  card.addEventListener('mousemove', (e) => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left, y = e.clientY - rect.top;
+    card.style.transform = `perspective(1000px) rotateX(${((y/rect.height)-.5)*-10}deg) rotateY(${((x/rect.width)-.5)*10}deg)`;
+    card.style.setProperty('--mx', x + 'px'); card.style.setProperty('--my', y + 'px');
+  });
+  card.addEventListener('mouseleave', () => { card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)'; });
+});
+
+document.querySelectorAll('.glass-card').forEach(card => {
+  card.addEventListener('mousemove', (e) => {
+    const rect = card.getBoundingClientRect();
+    card.style.setProperty('--mx', (e.clientX - rect.left) + 'px');
+    card.style.setProperty('--my', (e.clientY - rect.top) + 'px');
+  });
+});
+
+document.querySelectorAll('.magnetic').forEach(el => {
+  el.addEventListener('mousemove', (e) => {
+    const rect = el.getBoundingClientRect();
+    el.style.transform = `translate(${(e.clientX-rect.left-rect.width/2)*.35}px, ${(e.clientY-rect.top-rect.height/2)*.35}px)`;
+  });
+  el.addEventListener('mouseleave', () => { el.style.transform = 'translate(0, 0)'; });
+});
+
+document.querySelectorAll('.magnetic-ui').forEach(el => {
+  el.addEventListener('mousemove', (e) => {
+    const rect = el.getBoundingClientRect();
+    el.style.transform = `translate(${(e.clientX-rect.left-rect.width/2)*.4}px, ${(e.clientY-rect.top-rect.height/2)*.4}px)`;
+  });
+  el.addEventListener('mouseleave', () => { el.style.transform = 'translate(0, 0)'; });
+});
+
+document.querySelectorAll('.btn').forEach(btn => {
+  btn.addEventListener('click', function(e) {
+    const rect = this.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height);
+    const r = document.createElement('span');
+    r.className = 'ripple'; r.style.width = r.style.height = size + 'px';
+    r.style.left = (e.clientX - rect.left - size/2) + 'px'; r.style.top = (e.clientY - rect.top - size/2) + 'px';
+    this.appendChild(r); setTimeout(() => r.remove(), 600);
+  });
+});
+
+document.querySelectorAll('.timeline-item').forEach((item) => {
+  gsap.from(item, { opacity: 0, y: 60, duration: 0.9, ease: 'power3.out', scrollTrigger: { trigger: item, start: 'top 85%' } });
+});
+
+const form = document.getElementById('contact-form');
+const success = document.getElementById('form-success');
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
+  success.classList.add('show');
+  setTimeout(() => { success.classList.remove('show'); form.reset(); }, 3000);
+});
+
+const audioToggle = document.getElementById('audio-toggle');
+let audioCtx, audioNodes = [], audioOn = false;
+
+function startAmbient() {
+  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  [55, 82.4, 110, 164.8].forEach((f, i) => {
+    const osc = audioCtx.createOscillator();
+    osc.type = i === 0 ? 'sine' : 'triangle'; 
+    osc.frequency.value = f;
+    
+    const gain = audioCtx.createGain(); 
+    gain.gain.value = 0;
+    gain.gain.linearRampToValueAtTime(0.04, audioCtx.currentTime + 2);
+    
+    const filter = audioCtx.createBiquadFilter(); 
+    filter.type = 'lowpass'; 
+    filter.frequency.value = 400;
+    
+    osc.connect(filter); 
+    filter.connect(gain); 
+    gain.connect(audioCtx.destination); 
+    osc.start();
+    
+    audioNodes.push({ osc, gain });
+    
+    const lfo = audioCtx.createOscillator(); 
+    lfo.frequency.value = 0.1 + i * 0.05;
+    
+    const lg = audioCtx.createGain(); 
+    lg.gain.value = 0.02;
+    
+    lfo.connect(lg); 
+    lg.connect(gain.gain); 
+    lfo.start();
+    
+    audioNodes.push({ osc: lfo, gain: lg });
+  });
+}
+
+function stopAmbient() {
+  if (!audioCtx) return;
+  audioNodes.forEach(({ osc, gain }) => { 
+    try { 
+      gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.5); 
+      setTimeout(() => { 
+        try { 
+          osc.stop(); 
+        } catch(e) {
+          console.warn("Oscillator stop cleanup failed", e);
+        } 
+      }, 600); 
+    } catch(e) {
+      console.warn("Audio node cleanup failed", e);
+    } 
+  });
+  
+  audioNodes = []; 
+  setTimeout(() => { 
+    try { 
+      audioCtx.close(); 
+    } catch(e) {
+      console.warn("AudioContext close failed", e);
+    } 
+    audioCtx = null; 
+  }, 800);
+}
+
+audioToggle.addEventListener('click', () => {
+  if (audioOn) { 
+    stopAmbient(); 
+    audioToggle.classList.remove('active'); 
+    audioOn = false; 
+  } else { 
+    startAmbient(); 
+    audioToggle.classList.add('active'); 
+    audioOn = true; 
+  }
+});
+
+const konami = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+let ki = 0;
+document.addEventListener('keydown', (e) => {
+  const key = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+  if (key === konami[ki]) { 
+    ki++; 
+    if (ki === konami.length) { 
+      ki = 0; 
+      document.getElementById('easter-egg').classList.add('show'); 
+    } 
+  } else {
+    ki = (key === konami[0]) ? 1 : 0;
+  }
+});
+
+window.addEventListener('load', () => { setTimeout(() => ScrollTrigger.refresh(), 2500); });
+</script>
+
+</body>
+</html>
